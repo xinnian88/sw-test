@@ -1,6 +1,12 @@
 /**
  * Created by xinnian on 2016/10/26.
  */
+var el = document.getElementById("logArea");
+function cusLog(msg){
+    var sp = document.createElement("p");
+    sp.innerHTML = msg;
+    el.appendChild(sp);
+}
 if ('serviceWorker' in navigator) {
     function sendMessage(message) {
         return new Promise(function(resolve, reject) {
@@ -18,6 +24,7 @@ if ('serviceWorker' in navigator) {
 
         });
     }
+    cusLog(location.origin+'/sw.js');
     navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
         var state = "default";
         if(reg.installing) {
@@ -27,7 +34,7 @@ if ('serviceWorker' in navigator) {
         } else if(reg.active) {
             state = 'Service worker active';
         }
-        console.log(state);
+        cusLog(state);
         /*sendMessage("make channel").then(function (value) {
             console.log(value);
         }).catch(function (error) {
@@ -42,6 +49,10 @@ if ('serviceWorker' in navigator) {
     }).catch(function(error) {
         // registration failed
         console.log('Registration failed with ', error);
+        cusLog('Registration failed with '+error.message);
+        for(var key in error){
+            cusLog(key+":"+error[key]);
+        }
     });
 }
 

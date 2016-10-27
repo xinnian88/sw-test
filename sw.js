@@ -48,9 +48,15 @@ self.addEventListener('fetch', function (evt) {
             var request = evt.request.clone();
             return fetch(request).then(function (response) {
                 console.log(response.headers.get('Content-type'));
-                if (!response && response.status !== 200 && !response.headers.get('Content-type').match(/image/)) {
+                if (!response && response.status !== 200 &&
+                    !response.headers.get('Content-type').match(/image/)
+                ) {
                     return response;
                 }
+                if(response.headers.get('Content-type').match(/html/)){
+                    return response;
+                }
+
                 var responseClone = response.clone();
                 caches.open(CACHE_DB_NAME).then(function (cache) {
                     cache.put(evt.request, responseClone).catch(function (error) {

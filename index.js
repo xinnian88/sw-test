@@ -18,7 +18,7 @@ if ('serviceWorker' in navigator) {
 
         });
     }
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function(reg) {
+    navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
         var state = "default";
         if(reg.installing) {
             state = 'Service worker installing';
@@ -45,4 +45,4 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-new Worker("/worker.js");
+new Worker("/sw-test/worker.js");

@@ -4,14 +4,28 @@
 "use strict";
 var CACHE_DB_NAME = "my-test-cache-v1";
 var resourceJSON = ["index.js","test.png"];
+var messagePort;
 importScripts("cacheAddAll.js");
-if(typeof self.console == "undefined"){
+/*if(typeof self.console == "undefined"){
     self.console = {
         log:function (msg) {
-
+            if(messagePort){
+                messagePort.postMessage(msg);
+            }
+        }
+    }
+}*/
+var oldConsole = self.console;
+self.console = {
+    log:function (msg) {
+        if(messagePort){
+            messagePort.postMessage(msg);
+        }else if(oldConsole){
+            oldConsole.log(msg);
         }
     }
 }
+
 self.addEventListener('install', function(event) {
 
 

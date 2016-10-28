@@ -69,7 +69,7 @@ function initSW(){
 
 if ('serviceWorker' in navigator) {
     intervalID = setInterval(function () {
-
+        initSW();
     },2*1000);
 
 }else{

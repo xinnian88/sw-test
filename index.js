@@ -34,6 +34,7 @@ function initSW(){
             state = 'Service worker installing';
         } else if(reg.waiting) {
             state = 'Service worker installed';
+            clearInterval(intervalID);
         } else if(reg.active) {
             state = 'Service worker active';
             clearInterval(intervalID);

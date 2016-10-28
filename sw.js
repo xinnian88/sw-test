@@ -5,7 +5,7 @@
 var CACHE_DB_NAME = "my-test-cache-v1";
 var resourceJSON = ["index.js","test.png"];
 var messagePort;
-var version = 2;
+var version = 3;
 importScripts("cacheAddAll.js");
 /*if(typeof self.console == "undefined"){
     self.console = {

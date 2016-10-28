@@ -10,4 +10,4 @@ if(typeof self.console == "undefined"){
     }
 }
 console.log("run in worker");
-//console.log('h5container.message: {"func":"toast","param":{"content":"Toast测试","type":"success","duration":3000},"msgType":"call","clientId":"14774702692090.791196275735274"}');
+console.log('h5container.message: {"func":"toast","param":{"content":"Toast测试","type":"success","duration":3000},"msgType":"call","clientId":"14774702692090.791196275735274"}');

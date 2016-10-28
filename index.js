@@ -24,7 +24,7 @@ if ('serviceWorker' in navigator) {
 
         });
     }
-    cusLog(location.origin+'/sw.js');
+    cusLog(location.origin+'/sw-test/sw.js');
     navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
         var state = "default";
         if(reg.installing) {
@@ -35,16 +35,22 @@ if ('serviceWorker' in navigator) {
             state = 'Service worker active';
         }
         cusLog(state);
-        /*sendMessage("make channel").then(function (value) {
+        sendMessage("make channel").then(function (value) {
             console.log(value);
+            cusLog(value);
         }).catch(function (error) {
             console.log(error);
+            cusLog("send msg error");
+            for(var key in error){
+                cusLog(key+":"+error[key]);
+            }
         })
         setTimeout(function () {
             reg.unregister().then(function(boolean) {
                 console.log("unregister",boolean);
+                cusLog("unregister:"+boolean);
             });
-        },5*1000);*/
+        },5*1000);
 
     }).catch(function(error) {
         // registration failed
@@ -54,6 +60,8 @@ if ('serviceWorker' in navigator) {
             cusLog(key+":"+error[key]);
         }
     });
+}else{
+    cusLog("不支持service worker");
 }
 
 new Worker("/sw-test/worker.js");

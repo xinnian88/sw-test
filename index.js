@@ -45,12 +45,12 @@ if ('serviceWorker' in navigator) {
                 cusLog(key+":"+error[key]);
             }
         })
-        /*setTimeout(function () {
+        setTimeout(function () {
             reg.unregister().then(function(boolean) {
                 console.log("unregister",boolean);
                 cusLog("unregister:"+boolean);
             });
-        },5*1000);*/
+        },5*1000);
 
     }).catch(function(error) {
         // registration failed

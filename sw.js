@@ -63,6 +63,9 @@ self.addEventListener('fetch', function (evt) {
             var request = evt.request.clone();
             return fetch(request).then(function (response) {
                 console.log(response.headers.get('Content-type'));
+                //暂时不缓存数据
+                return response;
+
                 if (!response && response.status !== 200 &&
                     !response.headers.get('Content-type').match(/image/)
                 ) {

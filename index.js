@@ -2,28 +2,31 @@
  * Created by xinnian on 2016/10/26.
  */
 var el = document.getElementById("logArea");
+var intervalID;
 function cusLog(msg){
     var sp = document.createElement("p");
     sp.innerHTML = msg;
     el.appendChild(sp);
 }
-if ('serviceWorker' in navigator) {
-    function sendMessage(message) {
-        return new Promise(function(resolve, reject) {
-            var messageChannel = new MessageChannel();
-            messageChannel.port1.onmessage = function(event) {
-                if (event.data.error) {
-                    reject(event.data.error);
-                } else {
-                    resolve(event.data);
-                }
-            };
-            if(navigator.serviceWorker.controller){
-                navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
-            }
 
-        });
-    }
+function sendMessage(message) {
+    return new Promise(function(resolve, reject) {
+        var messageChannel = new MessageChannel();
+        messageChannel.port1.onmessage = function(event) {
+            if (event.data.error) {
+                reject(event.data.error);
+            } else {
+                resolve(event.data);
+            }
+        };
+        if(navigator.serviceWorker.controller){
+            navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
+        }
+
+    });
+}
+
+function initSW(){
     cusLog(location.origin+'/sw-test/sw.js');
     navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
         var state = "default";
@@ -33,6 +36,7 @@ if ('serviceWorker' in navigator) {
             state = 'Service worker installed';
         } else if(reg.active) {
             state = 'Service worker active';
+            clearInterval(intervalID);
         }
         cusLog(state);
         sendMessage("make channel").then(function (value) {
@@ -45,12 +49,12 @@ if ('serviceWorker' in navigator) {
                 cusLog(key+":"+error[key]);
             }
         })
-        setTimeout(function () {
+        /*setTimeout(function () {
             reg.unregister().then(function(boolean) {
                 console.log("unregister",boolean);
                 cusLog("unregister:"+boolean);
             });
-        },5*1000);
+        },5*1000);*/
 
     }).catch(function(error) {
         // registration failed
@@ -60,6 +64,14 @@ if ('serviceWorker' in navigator) {
             cusLog(key+":"+error[key]);
         }
     });
+}
+
+
+if ('serviceWorker' in navigator) {
+    intervalID = setInterval(function () {
+
+    },2*1000);
+
 }else{
     cusLog("不支持service worker");
 }
